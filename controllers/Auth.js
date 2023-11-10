@@ -2,7 +2,8 @@ const User = require('../models/User');
 const OTP = require('../models/OTP');
 const otpGenerator = require('otp-generator')
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 //send otp to user before the signup
 exports.sendOTP = async (req, res) => {
@@ -136,8 +137,69 @@ exports.signUp = async (req, res) => {
             image: `https://api.dicevear.com?5.x/initials/svg/?seed=${firstName} ${lastName}`
         })
         //return res
-        return res.status(200).json 
+        return res.status(200).json
     } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            sucess: false,
+            message: error.message
+        })
+    }
+}
+
+exports.login = async (req, res) => {
+    try {
+        //data from req body
+        const { email, password } = req.body;
+        //validate data 
+        if (!email || !password) {
+            return res.status(403).json({
+                success: false,
+                message: "fill all the required feilds"
+            })
+        }
+        //check email and password 
+        const user = User.findOne({ email })
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "user is not registered pls sign up first"
+            })
+        }
+        //generate token
+        if (bcrypt.compare(password, user.password)) {
+            const payload = {
+                email: user.email,
+                id: user._id,
+                role: user.accountType
+            }
+            const token = jwt.sign(payload, process.env.JWT_SECRET, {
+                expiresIn: "2h"
+            });
+            user.token = token
+            user.password = undefined
+
+            //store inside in cookie
+            const options = {
+                expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+                httpOnly: true,
+            }
+            res.cookie("token", token, options).status(200).json({
+                success: true,
+                token,
+                user,
+                message: "logged in successfully",
+            })
+        }
+        else {
+            return res.status(401).json({
+                success: false,
+                message: "password is not matching"
+            })
+        }
+    }
+    catch(error)
+    {
         console.log(error);
         return res.status(500).json({
             sucess: false,
