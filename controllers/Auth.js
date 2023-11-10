@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const OTP = require('../models/OTP');
 const otpGenerator = require('otp-generator')
+const bcrypt = require('bcrypt');
+
 
 //send otp to user before the signup
 exports.sendOTP = async (req, res) => {
