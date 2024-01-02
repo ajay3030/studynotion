@@ -4,7 +4,7 @@ const router = express.Router()
 
 // Import the required controllers and middleware functions
 const {
- // login,
+  login,
   signUp,
   sendOTP
   // changePassword,
@@ -25,7 +25,7 @@ const {
 // ********************************************************************************************************
 
 // Route for user login
-// router.post("/login", login)
+ router.post("/login", login)
 
 // Route for user signup
 router.post("/signup", signUp)

@@ -166,7 +166,7 @@ exports.login = async (req, res) => {
             })
         }
         //check email and password 
-        const user = User.findOne({ email })
+        const user = await User.findOne({ email })
         if (!user) {
             return res.status(401).json({
                 success: false,
