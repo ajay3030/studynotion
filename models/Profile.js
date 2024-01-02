@@ -8,7 +8,7 @@ const profileSchema = new mongoose.Schema({
         type:String
     },
     about:{
-        type:string,
+        type:String,
         trim:true,
     },
     contactNumber:{

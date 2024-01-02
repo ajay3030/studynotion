@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    email: {
+        type: String,
+        required: true,
+    },
     accountType: {
         type: String,
         enum: ["Admin", "Student", "Instructor"]
@@ -28,10 +32,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Course"
     }],
-    images:{
-        type:String,
-        required:true
-    },
+    // images:{
+    //     type:String,
+    //     required:true
+    // },
     token:{
         type:String,
     },

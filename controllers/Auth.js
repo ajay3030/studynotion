@@ -3,6 +3,7 @@ const OTP = require('../models/OTP');
 const otpGenerator = require('otp-generator')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Profile = require('../models/Profile')
 require('dotenv').config();
 
 //send otp to user before the signup
@@ -71,12 +72,14 @@ exports.signUp = async (req, res) => {
             confirmPassword,
             accountType,
             contactNumber,
-            otp
+          //  otp
         } = req.body;
         //validation
 
-        if (!firstName || !lastName || !password || !confirmPassword || !otp) {
-            return res.send.status(403).json({
+        if (!firstName || !lastName || !password || !confirmPassword || !email
+            //|| !otp
+            ) {
+            return res.status(403).json({
                 success: false,
                 message: "All fields are required",
             })
@@ -100,22 +103,22 @@ exports.signUp = async (req, res) => {
         }
 
         //find most recent otp stored for the user 
-        const recentOtp = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
-        console.log(recentOtp);
-        //validate otp 
-        if (recentOtp.length == 0) {
-            //otp not found
-            return res.status(400).json({
-                sucess: false,
-                message: 'OTP found'
-            })
-        } else if (otp !== recentOtp.otp) {
-            //invalid OTP 
-            return res.status(400).json({
-                success: false,
-                message: "Invalid OTP"
-            })
-        }
+        // const recentOtp = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
+        // console.log(recentOtp);
+        // //validate otp 
+        // if (recentOtp.length == 0) {
+        //     //otp not found
+        //     return res.status(400).json({
+        //         sucess: false,
+        //         message: 'OTP found'
+        //     })
+        // } else if (otp !== recentOtp.otp) {
+        //     //invalid OTP 
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: "Invalid OTP"
+        //     })
+        // }
         //hash password 
         const hashPassword = await bcrypt.hash(password, 10);
 
@@ -134,10 +137,14 @@ exports.signUp = async (req, res) => {
             password: hashPassword,
             accountType,
             additionalDetails: ProfileDetails._id,
-            image: `https://api.dicevear.com?5.x/initials/svg/?seed=${firstName} ${lastName}`
+            // image: `https://api.dicevear.com?5.x/initials/svg/?seed=${firstName}${lastName}`
         })
         //return res
-        return res.status(200).json
+        return res.status(200).json({
+            sucess: true,
+            message: "user added in a db succesfully"
+        })
+        
     } catch (error) {
         console.log(error);
         return res.status(500).json({
