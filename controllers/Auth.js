@@ -49,7 +49,7 @@ exports.sendOTP = async (req, res) => {
 
         res.status(200).json({
             sucess: true,
-            message: "atp added in a db succesfully"
+            message: "otp added in a db succesfully"
         })
     }
     catch (error) {
