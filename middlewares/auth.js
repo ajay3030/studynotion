@@ -6,7 +6,7 @@ const User = require("../models/User");
 
 exports.auth = async (req, res, next) => {
     try {
-        const token = req.cookies.token || req.body.token || req.header("Autherisation").replace("Bearer", "");
+        const token =  req.body.token 
         //if token missing , then return response 
         if (!token) {
             return res.status(401).json({
@@ -58,7 +58,7 @@ exports.isStudent = async(req,res,next)=>{
 }
 exports.isInstructor = async(req,res,next)=>{
     try{
-        if(req.user.accountType !== "Instructor"){
+        if(req.user.role !== "Instructor"){
             return res.status(401).json({
                 success:false,
                 message:"this is protected route for the Instructor only "

@@ -8,13 +8,18 @@ require('dotenv').config();
 exports.createCourse = async (req, res) => {
     try {
         //fetch data
-        const { courseName, courseDescription, whatYouWillLearn, price, tag } = req.body
+        const { courseName, courseDescription, whatYouWillLearn, price
+            //, tag 
+        } 
+            = req.body
 
         //get thumbnail
-        const thumbnail = req.files.thumbnailImage;
+        //const thumbnail = req.files.thumbnailImage;
 
         //vaidation
-        if (!courseName || !courseDescription || !whatYouWillLearn || !price || !tag || !thumbnail) {
+        if (!courseName || !courseDescription || !whatYouWillLearn || !price 
+            //|| !tag 
+            ) {
             return res.status(400).json({
                 success: false,
                 message: 'All fields are required'
@@ -33,16 +38,16 @@ exports.createCourse = async (req, res) => {
         }
 
         //check given tag is valid or not
-        const tagDetails = await Tag.findById(tag);
-        if (!tagDetails) {
-            return res.status(4004).json({
-                success: false,
-                message: 'tag Details not found'
-            })
-        }
+        // const tagDetails = await Tag.findById(tag);
+        // if (!tagDetails) {
+        //     return res.status(404).json({
+        //         success: false,
+        //         message: 'tag Details not found'
+        //     })
+        // }
 
         //upload image top cloudinary
-        const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME);
+        //const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME);
 
         //create an entry for new course 
         const newCourse = await Course.create({
@@ -50,9 +55,9 @@ exports.createCourse = async (req, res) => {
             courseDescription,
             Instructor: instructorDetails._id,
             whatYouWillLearn: whatYouWillLearn,
-            price,
-            tag: tagDetails._id,
-            thumbnail: thumbnailImage.secure_url
+            price
+           // tag: tagDetails._id
+           // thumbnail: thumbnailImage.secure_url
         })
 
         //add the new course to the user schema of instructor 
