@@ -8,7 +8,7 @@ require("dotenv").config();
 // Course Controllers Import
 const {
     createCourse,
-    // getAllCourses,
+    showAllCourses,
     // getCourseDetails,
     // getInstructorCourses,
     // editCourse,
@@ -28,11 +28,11 @@ const {
 // } = require("../controllers/Category")
 
 // // Sections Controllers Import
-// const {
-//     createSection,
+ const {
+    createSection,
 //     updateSection,
 //     deleteSection,
-// } = require("../controllers/Section")
+} = require("../controllers/Section")
 
 // // Sub-Sections Controllers Import
 // const {
@@ -61,7 +61,7 @@ const { auth, isInstructor, isStudent, isAdmin } = require("../middlewares/auth"
 // Courses can Only be Created by Instructors
 router.post("/createCourse", auth, isInstructor, createCourse)
 //Add a Section to a Course
-// router.post("/addSection", auth, isInstructor, createSection)
+router.post("/addSection", auth, isInstructor, createSection)
 // // Update a Section
 // router.post("/updateSection", auth, isInstructor, updateSection)
 // // Delete a Section
@@ -73,7 +73,7 @@ router.post("/createCourse", auth, isInstructor, createCourse)
 // // Add a Sub Section to a Section
 // router.post("/addSubSection", auth, isInstructor, createSubSection)
 // // Get all Registered Courses
-// router.get("/getAllCourses", getAllCourses)
+router.get("/showAllCourses", showAllCourses)
 // // Get Details for a Specific Courses
 // router.post("/getCourseDetails", getCourseDetails)
 // // Edit a Course

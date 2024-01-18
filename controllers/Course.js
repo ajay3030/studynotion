@@ -102,7 +102,8 @@ exports.showAllCourses = async (req, res) => {
             instructor: true,
             ratingAndReviews: true,
             studentsEnrolled: true
-        }).populate("instructor").exec()
+        })
+        //.populate("instructor").exec()
 
         // return response
         return res.status(200).json({
