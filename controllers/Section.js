@@ -43,7 +43,7 @@ exports.updateSection = async (req, res) => {
     try {
         //fetch data
         const { sectionName, sectionId } = req.body
-        //validte data
+        //validate data
         if (!sectionName || !sectionId) {
             return res.status(400).json({
                 success: false,

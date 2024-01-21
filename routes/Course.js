@@ -30,16 +30,16 @@ const {
 // // Sections Controllers Import
  const {
     createSection,
-//     updateSection,
+    updateSection,
 //     deleteSection,
 } = require("../controllers/Section")
 
 // // Sub-Sections Controllers Import
-// const {
-//     createSubSection,
+ const {
+       createSubSection,
 //     updateSubSection,
 //     deleteSubSection,
-// } = require("../controllers/SubSection")
+ } = require("../controllers/SubSection")
 
 // // Rating Controllers Import
 // const {
@@ -63,7 +63,7 @@ router.post("/createCourse", auth, isInstructor, createCourse)
 //Add a Section to a Course
 router.post("/addSection", auth, isInstructor, createSection)
 // // Update a Section
-// router.post("/updateSection", auth, isInstructor, updateSection)
+router.post("/updateSection", auth, isInstructor, updateSection)
 // // Delete a Section
 // router.post("/deleteSection", auth, isInstructor, isDemo, deleteSection)
 // // Edit Sub Section
@@ -71,7 +71,7 @@ router.post("/addSection", auth, isInstructor, createSection)
 // // Delete Sub Section
 // router.post("/deleteSubSection", auth, isInstructor, deleteSubSection)
 // // Add a Sub Section to a Section
-// router.post("/addSubSection", auth, isInstructor, createSubSection)
+router.post("/addSubSection", auth, isInstructor, createSubSection)
 // // Get all Registered Courses
 router.get("/showAllCourses", showAllCourses)
 // // Get Details for a Specific Courses
